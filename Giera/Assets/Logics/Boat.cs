@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Boat : MonoBehaviour
 {
-    public List<Hole> HolesMast { get;  set; }
+    public List<Hole> HolesMast { get; set; }
     public List<ISystem> Systems { get; set; }
     public List<Hole> HolesHull { get; set; }
     public bool IsDrown { get; set; }
@@ -19,21 +19,30 @@ public class Boat : MonoBehaviour
         if ((waterOnBoard + value) < 0)
         {
             throw new ArgumentException();
-        } else
+        }
+        else
         {
             _ = waterOnBoard + value > 1 ? waterOnBoard = 1 : waterOnBoard += value;
         }
     }
+
     public float GetWaterOnBoard()
     {
         return this.waterOnBoard;
     }
 
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        HolesHull = new List<Hole>();
+        HolesMast = new List<Hole>();
+        Systems = new List<ISystem>();
+        IsDrown = false;
+        waterOnBoard = 0.0f;
+        Speed = 1.0f;
     }
+
     // Update is called once per frame
     void Update()
     {
