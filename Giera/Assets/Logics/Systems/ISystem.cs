@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Assets.Logics
 {
-    interface ISystem
+    public interface ISystem
     {
+        void Update(Boat boat);
     }
 }

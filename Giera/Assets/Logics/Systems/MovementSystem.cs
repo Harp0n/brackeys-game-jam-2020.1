@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Assets.Logics.Systems
 {
-    class MovementSystem
+    class MovementSystem : ISystem
     {
+        public void Update(Boat boat)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
