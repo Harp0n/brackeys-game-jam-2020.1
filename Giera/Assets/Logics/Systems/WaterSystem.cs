@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Assets.Logics.Systems
 {
-    class WaterSystem
+    public class WaterSystem : ISystem
     {
+        public void Update(Boat boat)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

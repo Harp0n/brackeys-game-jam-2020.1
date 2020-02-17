@@ -8,5 +8,6 @@ namespace Assets.Logics
 {
     interface ISystem
     {
+        void Update(Boat boat);
     }
 }
