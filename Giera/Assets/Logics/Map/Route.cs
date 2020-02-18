@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Assets.Logics.Map
+{
+    public class Route
+    {
+        /// <summary>
+        /// HowHard from scale 1-10. 
+        /// 1 - Very Easy
+        /// 10 - Very Hard
+        /// </summary>
+        public int HowHard {
+            get
+            { return HowHard; }
+            set
+            {
+                _ = HowHard > 10 || HowHard < 1 ?
+                    throw new ArgumentException() :
+                    HowHard = value;
+            }
+        }
+        /// <summary>
+        /// HowLong from scale 1-10. 
+        /// 1 - Very Short
+        /// 10 - Very Long
+        /// </summary>
+        public int HowLong
+        {
+            get
+            { return HowLong; }
+            set
+            {
+                _ = HowLong > 10 || HowLong < 1 ?
+                    throw new ArgumentException() :
+                    HowLong = value;
+            }
+        }
+    }
+}
