@@ -8,7 +8,6 @@ using UnityEngine;
 public class Boat : MonoBehaviour
 {
     public List<Hole> HolesMast { get; set; }
-    public List<ISystem> Systems { get; set; }
     public List<Hole> HolesHull { get; set; }
     public bool IsDrown { get; set; }
     private float waterOnBoard;
@@ -16,9 +15,10 @@ public class Boat : MonoBehaviour
 
     public void SetWaterOnBoard(float value)
     {
-        if ((waterOnBoard + value) < 0)
+        if ((waterOnBoard + value) < 0.0f)
         {
-            throw new ArgumentException();
+            waterOnBoard = 0.0f;
+            //throw new ArgumentException();
         }
         else
         {
@@ -36,8 +36,15 @@ public class Boat : MonoBehaviour
     void Start()
     {
         HolesHull = new List<Hole>();
+        foreach (var gameObject in GameObject.FindGameObjectsWithTag("holeHull"))
+        {
+            HolesHull.Add(gameObject.GetComponent<Hole>());
+        }
         HolesMast = new List<Hole>();
-        Systems = new List<ISystem>();
+        foreach (var gameObject in GameObject.FindGameObjectsWithTag("holeMast"))
+        {
+            HolesMast.Add(gameObject.GetComponent<Hole>());
+        }
         IsDrown = false;
         waterOnBoard = 0.0f;
         Speed = 1.0f;
