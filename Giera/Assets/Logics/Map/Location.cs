@@ -11,5 +11,15 @@ namespace Assets.Logics.Map
         public string Name { get; set; }
         public List<Place> MyProperty { get; set; }
         public Boolean Destroyed { get; set; }
+
+        public Location(string name)
+        {
+            Name = name;
+        }
+
+        public override string ToString()
+        {
+            return Name.ToString();
+        }
     }
 }

@@ -25,9 +25,9 @@ namespace Graphs
             }
         }
 
-        public Vertex(Location name)
+        public Vertex(Location location)
         {
-            _location = name;
+            _location = location;
         }
 
         #region Overrides
