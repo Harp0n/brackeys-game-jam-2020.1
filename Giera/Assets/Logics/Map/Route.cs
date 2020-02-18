@@ -8,38 +8,41 @@ namespace Assets.Logics.Map
 {
     public class Route
     {
+        private int _howHard;
         /// <summary>
         /// HowHard from scale 1-10. 
         /// 1 - Very Easy
         /// 10 - Very Hard
         /// </summary>
-        public int HowHard { get; set;
-            /*get
-            { return HowHard; }
+        public int HowHard { 
+            get
+            {
+                return _howHard; 
+            }
             set
             {
-                _ = HowHard > 10 || HowHard < 1 ?
+                _ = value > 10 || value < 1 ?
                     throw new ArgumentException() :
-                    HowHard = value;
-            }*/
+                    _howHard = value;
+            }
         }
+
+        private int _howLong;
         /// <summary>
         /// HowLong from scale 1-10. 
         /// 1 - Very Short
         /// 10 - Very Long
         /// </summary>
         public int HowLong
-        {
-            get;set;
-            /*
+        {            
             get
-            { return HowLong; }
+            { return _howLong; }
             set
             {
-                _ = HowLong > 10 || HowLong < 1 ?
+                _ = value > 10 || value < 1 ?
                     throw new ArgumentException() :
-                    HowLong = value;
-            }*/
+                    _howLong = value;
+            }
         }
 
         public Route()

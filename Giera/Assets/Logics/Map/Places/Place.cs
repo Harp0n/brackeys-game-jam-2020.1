@@ -9,7 +9,7 @@ namespace Assets.Logics.Map
     public abstract class Place
     {
         public string Name { get; set; }
-        public abstract void Interact(Player player);
+        public abstract void Interact();
 
     }
 }

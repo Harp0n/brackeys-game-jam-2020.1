@@ -12,9 +12,8 @@ namespace Assets.Logics.Map
         public Graph WorldGraph { get; set; }
         public Vertex CurrentLocation { get; set; }
         public List<Location> PossibleDestinations { get; set; }
-
         public List<List<Vertex>> llVertex { get; set; }
-
+        private int DestructionOfLocationsIterator { get; set; } = 0;
 
         /// <summary>
         /// Creates map for current game session
@@ -33,7 +32,7 @@ namespace Assets.Logics.Map
 
             Random generator = new Random();
 
-            Vertex startingVertex = new Vertex(new Location("Start"));
+            Vertex startingVertex = new Vertex(new Location("Starting Island"));
 
             CurrentLocation = startingVertex;
 
@@ -44,14 +43,14 @@ namespace Assets.Logics.Map
             WorldGraph.AddNewVertex(startingVertex);
 
             //Creating list of lists of Islands
-            for(int i=0; i < howBigMap; i++)
+            for(int i=1; i < howBigMap+1; i++)
             {
                 int howManyIslands = generator.Next(minIslandsInArray, maxIslandsInArray);
                 llVertex.Add(new List<Vertex>());
 
                 for (int j = 0; j < howManyIslands; j++)
                 {
-                    Vertex vertex = new Vertex(new Location("Tests"));// Change location to random location generator
+                    Vertex vertex = new Vertex(new Location()); 
                     
                     WorldGraph.AddNewVertex(vertex);
                     llVertex[i].Add(vertex); 
@@ -73,7 +72,10 @@ namespace Assets.Logics.Map
                         new Pair<Location>(llVertex[i - 1][generator.Next(0, firstArrLength)].Location,
                                             llVertex[i][generator.Next(0, secondArrLength)].Location);
 
-                    WorldGraph.AddNewEdge(pair);
+                    Edge edge = new Edge(pair);
+                    edge.Route = new Route();
+                    WorldGraph.AddNewEdge(edge);
+                    
                 }
             }
 
@@ -91,15 +93,92 @@ namespace Assets.Logics.Map
 
                         Pair<Location> pair = new Pair<Location>(llVertex[i][generator.Next(0, howManyIslandsInArray)].Location, llVertex[i][generator.Next(0, howManyIslandsInArray)].Location);
 
-                        WorldGraph.AddNewEdge(pair);
+                        Edge edge = new Edge(pair);
+                        edge.Route = new Route();
+                        WorldGraph.AddNewEdge(edge);
                     }
                 }
             }
         }
+        /// <summary>
+        /// Move player to location, and get route that leads to it.
+        /// </summary>
+        /// <param name="moveToLocation"></param>
+        /// <returns></returns>
+        public Route MovePlayer(Location moveToLocation)
+        {
+            foreach(Vertex vertexIter in GraphHelper.FindAdjacentVertices(WorldGraph, CurrentLocation))
+            {
+                if (vertexIter.Location.Equals(moveToLocation))
+                {
+                    CurrentLocation = vertexIter;
+                    return RouteBetween(CurrentLocation.Location, vertexIter.Location);
+                }
+            }
 
+            return null;
+        }
+
+        /// <summary>
+        /// Returns Route between two locations, if there is none root gives back null.
+        /// </summary>
+        /// <param name="one"></param>
+        /// <param name="two"></param>
+        /// <returns></returns>
+        public Route RouteBetween(Location one, Location two)
+        {
+            foreach(Edge edge in WorldGraph.Edges)
+            {
+                if (edge.Vertices.First.Equals(one) || edge.Vertices.Last.Equals(two)) return edge.Route;
+                if (edge.Vertices.First.Equals(two) || edge.Vertices.Last.Equals(one)) return edge.Route;
+            }
+            return null;
+        }
+        /// <summary>
+        /// Calls next array of Locations to destroy
+        /// </summary>
         public void UpdateDestroyedLocations()
         {
-                
+            if (llVertex[DestructionOfLocationsIterator] == null) throw new Exception("Null llVertex array!");
+            
+            foreach(Vertex vertex in llVertex[0])
+            {
+                WorldGraph.RemoveVertex(vertex);
+            }
+
+            llVertex[DestructionOfLocationsIterator] = null;
+
+            DestructionOfLocationsIterator++;
+        }
+
+        /// <summary>
+        /// Return array of locations from current location of player. 
+        /// </summary>
+        /// <returns></returns>
+        public Location[] listOfPossibleLocations()
+        {
+            List<Location> routes = new List<Location>();
+
+            foreach (Vertex vertex in GraphHelper.FindAdjacentVertices(WorldGraph, CurrentLocation))
+            {
+                routes.Add(vertex.Location);
+            }
+            return routes.ToArray();
+        }
+
+        /// <summary>
+        /// Return array of routes from current location of player. 
+        /// </summary>
+        /// <returns></returns>
+        public Route[] listOfPossibleRoutes()
+        {
+            List<Route> routes = new List<Route>();
+
+            foreach(Edge edge in GraphHelper.FindAdjacentEdges(WorldGraph, CurrentLocation))
+            {
+                routes.Add(edge.Route);
+            }
+            return routes.ToArray();
         }
     }
 }

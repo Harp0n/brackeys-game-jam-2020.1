@@ -13,6 +13,7 @@ namespace Graphs
     public class Edge
     {
         private Pair<Vertex> _vertices;
+        public Route Route { get; set; }
 
         public Pair<Vertex> Vertices
         {

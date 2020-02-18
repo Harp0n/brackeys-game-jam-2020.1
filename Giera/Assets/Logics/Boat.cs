@@ -12,7 +12,17 @@ public class Boat : MonoBehaviour
     public List<Hole> HolesHull { get; set; }
     public bool IsDrown { get; set; }
     private float waterOnBoard;
-    public float Speed { get; set; }
+    public float Speed {
+        get { 
+            return _speed;
+        }
+        set
+        {
+            _ = value > 1 ? _speed = 1 : 
+                value < 0 ? _speed = 0 : _speed = value; 
+        }
+    }
+    private float _speed;
 
     public void SetWaterOnBoard(float value)
     {
