@@ -27,7 +27,7 @@ public class PlayerScript : MonoBehaviour
     {
         Jumping();
         Movement();
-        Aiming();
+        //Aiming();
         Action();
     }
 
