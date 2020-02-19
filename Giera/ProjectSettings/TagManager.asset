@@ -4,7 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
+  - bucket
+  - hammer
+  - holeMast
+  - holeHull
+  - ground
   layers:
   - Default
   - TransparentFX
