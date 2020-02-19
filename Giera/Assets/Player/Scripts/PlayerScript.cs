@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 public class PlayerScript : MonoBehaviour
 {
+    [System.Serializable]
+    public class Item
+    {
+        public Collider2D itemCollider;
+        public Sprite itemSprite;
+        public string animationTrigger;
+        public bool lockItemAfterAction;
+        public bool isSelectable;
+        public int swapToAfterAction = -1;
+    }
+
     [Header("Movement")]
     public string axisName = "Horizontal";
     public float movementForce;
@@ -17,6 +28,13 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Actions")]
     public string actionButton = "";
+    public string scrollWheelAxis = "";
+    public SpriteRenderer itemHolder;
+    public Item[] items;
+    private List<int> selectable = new List<int>();
+    private int currentItem = 0;
+    private bool isInAction = false;
+    private bool canChangeItem = true;
 
     private Rigidbody2D rigid;
     private Animator animator;
@@ -29,20 +47,26 @@ public class PlayerScript : MonoBehaviour
         animator = GetComponent<Animator>();
         rightScale = new Vector2(transform.localScale.x, transform.localScale.y);
         leftScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i].itemCollider.enabled = false;
+            if (items[i].isSelectable) selectable.Add(i);
+        }
     }
 
     void Update()
     {
+        if (isInAction) return;
         Jumping();
         Movement();
         //Aiming();
+        SwapItem();
         Action();
     }
 
     private void Movement()
     {
         //Debug.Log("Player: velocity = " + rigid.velocity.x);
-        
         if (rigid.velocity.sqrMagnitude < movementForce * movementForce)    //sprawdzamy, czy nie poruszamy sie juz z maks. predkoscia
         {
             float input = Input.GetAxis("Horizontal");  //wczytujemy wejscie z klawiatury (lewo - prawo)
@@ -75,7 +99,6 @@ public class PlayerScript : MonoBehaviour
     private void Jumping()
     {
         //Debug.Log("Player: grounded = " + isGrounded);
-
         if (!isGrounded) return;    //jesli nie jestesmy na ziemi to nie ma co sprawdzac
 
         if (Input.GetButtonDown(jumpButton))
@@ -96,14 +119,49 @@ public class PlayerScript : MonoBehaviour
         //arm.rotation = Quaternion.Euler(0f, 0f, rotation);
     }
 
+    private void SwapItem()
+    {
+        if (!canChangeItem) return;
+        float scrollWheel = Input.GetAxis(scrollWheelAxis);
+        if (scrollWheel < 0f)
+            currentItem = selectable[(currentItem - 1 + selectable.Count) % selectable.Count];
+        else if (scrollWheel > 0f)
+            currentItem = selectable[(currentItem + 1) % selectable.Count];
+
+        itemHolder.sprite = items[currentItem].itemSprite;
+    }
+
     private void Action()
     {
-
+        if (!isGrounded) return;
+        if(Input.GetButton(actionButton))
+        {
+            isInAction = true;
+            items[currentItem].itemCollider.enabled = true;
+            rigid.velocity = Vector2.zero;
+            animator.SetTrigger(items[currentItem].animationTrigger);
+        }
     }
+
     //to jest wzywane przez GroundCheck, w zaleznosci od tego czy gracz opusci ziemie czy spadnie na nia
     public void SetGrounded(bool grounded)
     {
         if (!isGrounded && grounded) animator.SetTrigger("land");
         isGrounded = grounded;
+    }
+
+    //wzywane na koncu animacji akcji
+    public void FinishAction()
+    {
+        Item item = items[currentItem];
+        item.itemCollider.enabled = false;
+        isInAction = false;
+        canChangeItem = true;
+        if (item.lockItemAfterAction) canChangeItem = false;
+        if(item.swapToAfterAction!=-1)
+        {
+            currentItem = item.swapToAfterAction;
+            itemHolder.sprite = items[currentItem].itemSprite;
+        }
     }
 }
