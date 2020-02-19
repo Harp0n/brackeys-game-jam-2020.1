@@ -15,7 +15,7 @@ namespace Assets.Logics.Systems
         {
             Random r = new Random();
 
-            if (r.Next(0, 10000) > 9900)
+            if (r.Next(0, 100) > 97)
             {
                 Debug.Log("dodaje dziury");
                 if(boat.HolesMast.Count > 0)

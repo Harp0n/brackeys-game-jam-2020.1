@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Logics.Systems
 {
-    class WaterSystem : ISystem
+    public class WaterSystem : ISystem
     {
         const float INCREMENT_HOLE_SIZE = 0.0005f;
 

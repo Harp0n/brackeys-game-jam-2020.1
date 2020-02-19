@@ -1,0 +1,2 @@
+D:\Work\GitHub\brackeys-game-jam-2020.1\Giera\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+D:\Work\GitHub\brackeys-game-jam-2020.1\Giera\obj\Debug\Assembly-CSharp.pdb
