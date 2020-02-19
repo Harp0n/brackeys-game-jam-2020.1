@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class HoleHull : Hole
 {
-    static float initialSize = 0.00001f;
+    private readonly float INITIAL_SIZE = 0.00001f;
     private Vector3 minScale = new Vector3(0.4f, 0.5f, 1.0f);
 
     protected override void OnStateChange(bool futurePatchUp)
     {
         if (IsPatchedUp && !futurePatchUp) //open a hole
         {
-            Size = initialSize;
+            Size = INITIAL_SIZE;
         }
         else if (!IsPatchedUp && futurePatchUp)//close a hole
         {
@@ -25,7 +25,7 @@ public class HoleHull : Hole
     {
         foreach (Transform child in gameObject.transform)
         {
-            child.localScale = futureSize / initialSize * minScale;
+            child.localScale = futureSize / INITIAL_SIZE * minScale;
         }
     }
 

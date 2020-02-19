@@ -11,28 +11,30 @@ public class Player : MonoBehaviour
     [SerializeField]
     public bool CanCollectWater { get; set; }
     [SerializeField]
-    public bool IsInsideShip;
+    public bool IsInsideShip { get; set; }
     [SerializeField]
-    public bool HasWater { get; set; }
+    public float WaterInBucket { get; set; }
 
 
     public void UseBucket()
     {
-        float amount = 0.1f;
-        if (HasWater)
+        float maxAmount = 0.1f;
+        if (WaterInBucket > 0.0f)
         {
-            HasWater = false;
             if (IsInsideShip) //pour inside, water increases
             {
-                GameObject.FindObjectOfType<Boat>().SetWaterOnBoard(amount);
+                GameObject.FindObjectOfType<Boat>().SetWaterOnBoard(WaterInBucket);
             }
+            WaterInBucket = 0.0f;
         }
         else //empty bucket
         {
             if (CanCollectWater) //water decreases
             {
-                HasWater = true;
-                GameObject.FindObjectOfType<Boat>().SetWaterOnBoard(-amount);
+                Boat boat = GameObject.FindObjectOfType<Boat>();
+                float pickedUpWater = Mathf.Min(boat.GetWaterOnBoard(), maxAmount);
+                WaterInBucket = pickedUpWater;
+                boat.SetWaterOnBoard(-pickedUpWater);
             }
         }
     }
@@ -50,7 +52,7 @@ public class Player : MonoBehaviour
         IsDead = false;
         CanCollectWater = false;
         IsInsideShip = true;
-        HasWater = false;
+        WaterInBucket = 0.0f;
     }
 
     // Update is called once per frame

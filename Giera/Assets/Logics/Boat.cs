@@ -20,6 +20,10 @@ public class Boat : MonoBehaviour
             waterOnBoard = 0.0f;
             //throw new ArgumentException();
         }
+        else if ((waterOnBoard + value) > 1.0f)
+        {
+            Debug.Log("GAME OVERS");
+        }
         else
         {
             _ = waterOnBoard + value > 1 ? waterOnBoard = 1 : waterOnBoard += value;
