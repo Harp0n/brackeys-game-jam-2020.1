@@ -7,9 +7,34 @@ using UnityEngine;
 
 namespace Assets.Logics.Systems
 {
-    public class Hole : MonoBehaviour
+    public abstract class Hole : MonoBehaviour
     {
-        public float Size { get; set; }
-        public bool IsPatchedUp { get; set; }
+        protected float size;
+        public float Size {
+            get => size;
+            set {
+                OnSizeChange(value);
+                size = value;
+            }
+        }
+
+        private bool isPatchedUp;
+        public bool IsPatchedUp
+        {
+            get => isPatchedUp;
+            set
+            {
+                OnStateChange(value);
+                isPatchedUp = value;
+            }
+        }
+
+        protected virtual void OnStateChange(bool futurePatchUp) { }
+        protected virtual void OnSizeChange(float futureSize) { }
+
+        void Start()
+        {
+            isPatchedUp = true;
+        }
     }
 }

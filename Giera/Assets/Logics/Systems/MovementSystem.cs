@@ -9,7 +9,7 @@ namespace Assets.Logics.Systems
     public class MovementSystem : ISystem
     {
         private readonly float SPEED_DECREASE = 0.001f;
-        private readonly float INCREMENT_HOLE_SIZE = 0.05f;
+        private readonly float INCREMENT_HOLE_SIZE = 0.0001f;
 
         public void Update(Boat boat)
         {
