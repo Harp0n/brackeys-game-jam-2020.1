@@ -126,8 +126,8 @@ namespace Assets.Logics.Map
         {
             foreach(Edge edge in WorldGraph.Edges)
             {
-                if (edge.Vertices.First.Location.Equals(one) || edge.Vertices.Last.Location.Equals(two)) return edge.Route;
-                if (edge.Vertices.First.Location.Equals(two) || edge.Vertices.Last.Location.Equals(one)) return edge.Route;
+                if (edge.Vertices.First.Location.Equals(one) && edge.Vertices.Last.Location.Equals(two)) return edge.Route;
+                if (edge.Vertices.First.Location.Equals(two) && edge.Vertices.Last.Location.Equals(one)) return edge.Route;
             }
             return null;
         }

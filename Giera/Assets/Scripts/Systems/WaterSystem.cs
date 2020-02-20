@@ -9,7 +9,7 @@ namespace Assets.Logics.Systems
 {
     public class WaterSystem : ISystem
     {
-        const float INCREMENT_HOLE_SIZE = 0.0005f;
+        const float INCREMENT_HOLE_SIZE = 0.0000f;
 
         private Transform waterTransform;
         private Vector2 waterTransformInitialPosition;
@@ -21,16 +21,17 @@ namespace Assets.Logics.Systems
             waterTransform.localPosition = Vector3.zero;
         }
 
-        public void Update(Boat boat)
+        public void Update(GameSystem gameSystem, float deltaTime)
         {
+            Boat boat = gameSystem.Boat;
             List<Hole> holes = boat.HolesHull;
             float waterAmount = 0.0f;
             foreach (Hole hole in holes)
             {
                 if (!hole.IsPatchedUp)
                 {
-                    hole.Size *= (1+INCREMENT_HOLE_SIZE);
-                    waterAmount += hole.Size;
+                    hole.Size += INCREMENT_HOLE_SIZE*deltaTime;
+                    waterAmount += hole.Size * deltaTime;
                 }
             }
             boat.SetWaterOnBoard(waterAmount);

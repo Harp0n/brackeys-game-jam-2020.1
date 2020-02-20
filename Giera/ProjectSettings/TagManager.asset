@@ -11,6 +11,9 @@ TagManager:
   - ground
   - map
   - pathInfo
+  - ship
+  - pathSelection
+  - docking
   layers:
   - Default
   - TransparentFX

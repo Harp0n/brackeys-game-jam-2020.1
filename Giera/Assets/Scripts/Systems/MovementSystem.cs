@@ -11,13 +11,14 @@ namespace Assets.Logics.Systems
         private readonly float SPEED_DECREASE = 0.001f;
         private readonly float INCREMENT_HOLE_SIZE = 0.0001f;
 
-        public void Update(Boat boat)
+        public void Update(GameSystem gameSystem, float deltaTime)
         {
+            Boat boat = gameSystem.Boat;
             float sumOfHoleSizes = 0;
 
             foreach (Hole hole in boat.HolesHull)
             {
-                hole.Size += (hole.Size * INCREMENT_HOLE_SIZE);
+                hole.Size += INCREMENT_HOLE_SIZE * deltaTime;
                 sumOfHoleSizes += hole.Size;
             }
 

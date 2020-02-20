@@ -56,14 +56,21 @@ public class Boat : MonoBehaviour
         {
             HolesMast.Add(gameObject.GetComponent<Hole>());
         }
+        Reset();
+    }
+
+    public void Reset() //reverts ship to the initial state
+    {
+        foreach (Hole hole in HolesHull)
+        {
+            hole.IsPatchedUp = true;
+        }
+        foreach (Hole hole in HolesHull)
+        {
+            hole.IsPatchedUp = true;
+        }
         IsDrown = false;
         waterOnBoard = 0.0f;
         Speed = 1.0f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -8,6 +8,6 @@ namespace Assets.Logics
 {
     public interface ISystem
     {
-        void Update(Boat boat);
+        void Update(GameSystem gameSystem, float deltaTime);
     }
 }

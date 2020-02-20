@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HoleHull : Hole
 {
-    private readonly float INITIAL_SIZE = 0.00001f;
+    private readonly float INITIAL_SIZE = 0.00005f;
     private Vector3 minScale = new Vector3(0.4f, 0.5f, 1.0f);
 
     protected override void OnStateChange(bool futurePatchUp)

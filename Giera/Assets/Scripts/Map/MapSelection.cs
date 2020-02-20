@@ -119,13 +119,11 @@ public class MapSelection : MonoBehaviour
         Location currentLocation = worldMap.CurrentLocation.Location;
         if (currentLocation.Equals(edge.Vertices.First.Location) || currentLocation.Equals(edge.Vertices.Last.Location))
         {
-            Debug.Log("PIERWSZY IF");
             Location targetLocation = currentLocation.Equals(edge.Vertices.First.Location) ? edge.Vertices.Last.Location : edge.Vertices.First.Location;
             Debug.Log(currentLocation);
             Debug.Log(targetLocation);
             if (worldMap.RouteBetween(currentLocation, targetLocation) != null)
             {
-                Debug.Log("DRUGI IF");
                 worldMap.MovePlayer(targetLocation);
                 GameObject.FindObjectOfType<GameSystem>().SelectPath(edge);
             }
