@@ -1,4 +1,6 @@
-﻿using Assets.Logics.Systems;
+﻿using Assets.Logics.Map;
+using Assets.Logics.Systems;
+using Graphs;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +11,27 @@ namespace Assets.Logics
         public List<ISystem> Systems { get; set; }
         public Boat Boat { get; set; }
         public PlayerScript Player { get; set; }
-        private Transform waterTransform;
-        private Vector2 waterTransformInitialPosition;
+        private int HowHard { get; set; }
+        private int HowLong { get; set; }
+
+        private GameStateEnum _gameState;
+        public GameStateEnum GameState
+        {
+            get => _gameState;
+            set
+            {
+                switch (value)
+                {
+                    case GameStateEnum.PLAYING:
+                        FindObjectOfType<Canvas>().enabled = false;
+                        break;
+                    case GameStateEnum.PATH_SELECTION:
+                        FindObjectOfType<Canvas>().enabled = true;
+                        break;
+                }
+                _gameState = value;
+            }
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -22,9 +43,7 @@ namespace Assets.Logics
             };
             Boat = FindObjectOfType<Boat>();
             Player = FindObjectOfType<PlayerScript>();
-            waterTransform = GameObject.Find("movingWaterTransform").transform;
-            waterTransformInitialPosition = waterTransform.position;
-            waterTransform.localPosition = Vector3.zero;
+            GameState = GameStateEnum.PATH_SELECTION;
         }
 
         // Update is called once per frame
@@ -41,11 +60,26 @@ namespace Assets.Logics
                 Boat.SetWaterOnBoard(-0.01f);
                 print("down arrow key is held down");
             }
-            foreach (var system in Systems)
+            //--------------------------------------------
+
+            if (GameState.Equals(GameStateEnum.PLAYING))
             {
-                system.Update(Boat);
+                foreach (var system in Systems)
+                {
+                    system.Update(Boat);
+                }
             }
-            waterTransform.localPosition = new Vector3(0.0f, -Boat.GetWaterOnBoard() * waterTransformInitialPosition.y, 0.0f);
+        }
+
+        public void SelectPath(Edge edge)
+        {
+            Debug.Log("SELECT W GAMESYSTEM");
+            if (GameState.Equals(GameStateEnum.PATH_SELECTION))
+            {
+                HowHard = edge.Route.HowHard;
+                HowLong = edge.Route.HowLong;
+                GameState = GameStateEnum.PLAYING;
+            }
         }
     }
 }

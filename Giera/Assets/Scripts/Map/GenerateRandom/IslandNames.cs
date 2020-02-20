@@ -7,7 +7,7 @@ namespace Tests.Map
 {
     public static class IslandNames
     {
-        private static string path = Directory.GetCurrentDirectory() + "/locationNames"; // lista imion fantasy (może nie działać trzeba sprawdzić)
+        private static string path = Directory.GetCurrentDirectory() + "/Assets/Scripts/Map/GenerateRandom/locationNames.txt"; // lista imion fantasy (może nie działać trzeba sprawdzić)
 
         private static List<String> Names;
 
@@ -26,9 +26,8 @@ namespace Tests.Map
                 }
             }
 
-            Random r = new Random();
 
-            return Names[r.Next(0, Names.Count)];
+            return Names[UnityEngine.Random.Range(0, Names.Count)];
         }
     }
 }

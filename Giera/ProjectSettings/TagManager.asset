@@ -9,6 +9,8 @@ TagManager:
   - holeMast
   - holeHull
   - ground
+  - map
+  - pathInfo
   layers:
   - Default
   - TransparentFX

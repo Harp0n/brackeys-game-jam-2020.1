@@ -39,7 +39,6 @@ public class HoleHull : Hole
 
     void SetDisplay(bool isPatchedUp)
     {
-        Debug.Log("SET DISPLAY "+isPatchedUp);
         gameObject.GetComponent<SpriteRenderer>().enabled = isPatchedUp;
         foreach (Transform child in gameObject.transform)
         {

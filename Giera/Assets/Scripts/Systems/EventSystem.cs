@@ -17,7 +17,6 @@ namespace Assets.Logics.Systems
 
             if (r.Next(0, 100) > 97)
             {
-                Debug.Log("dodaje dziury");
                 if(boat.HolesMast.Count > 0)
                     boat.HolesMast[r.Next(0, boat.HolesMast.Count)].IsPatchedUp = false;
 

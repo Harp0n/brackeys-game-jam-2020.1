@@ -11,6 +11,16 @@ namespace Assets.Logics.Systems
     {
         const float INCREMENT_HOLE_SIZE = 0.0005f;
 
+        private Transform waterTransform;
+        private Vector2 waterTransformInitialPosition;
+
+        public WaterSystem()
+        {
+            waterTransform = GameObject.Find("movingWaterTransform").transform;
+            waterTransformInitialPosition = waterTransform.localPosition;
+            waterTransform.localPosition = Vector3.zero;
+        }
+
         public void Update(Boat boat)
         {
             List<Hole> holes = boat.HolesHull;
@@ -24,6 +34,7 @@ namespace Assets.Logics.Systems
                 }
             }
             boat.SetWaterOnBoard(waterAmount);
+            waterTransform.localPosition = new Vector3(0.0f, boat.GetWaterOnBoard() * waterTransformInitialPosition.y, 0.0f);
         }
     }
 }
