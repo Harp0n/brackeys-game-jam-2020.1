@@ -73,7 +73,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Movement()
     {
-        if (rigid.velocity.magnitude < movementForce)
+        if (Mathf.Abs(rigid.velocity.x) < maxSpeed)
         {
             float input = Input.GetAxis("Horizontal");
 

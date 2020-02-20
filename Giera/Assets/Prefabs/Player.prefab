@@ -504,7 +504,7 @@ GameObject:
   - component: {fileID: 2546761604887344468}
   m_Layer: 0
   m_Name: FillingCollider
-  m_TagString: Untagged
+  m_TagString: bucket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -930,7 +930,7 @@ GameObject:
   - component: {fileID: 2546761605888980384}
   m_Layer: 0
   m_Name: HammerCollider
-  m_TagString: Untagged
+  m_TagString: hammer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 231edbcbd3c845349861081cdda4ef03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundTag: Ground
+  groundTag: ground
   playerTag: Player
 --- !u!1 &2546761605973828906
 GameObject:
@@ -1264,7 +1264,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1283,11 +1283,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisName: Horizontal
-  movementForce: 15
-  maxSpeed: 5
-  stoppingForce: 7.5
+  movementForce: 30
+  maxSpeed: 25
+  stoppingForce: 5
   jumpButton: Jump
-  jumpStrength: 350
+  jumpStrength: 1000
   actionButton: Fire1
   scrollWheelAxis: Mouse ScrollWheel
   itemHolder: {fileID: 2546761605973828900}
@@ -1298,6 +1298,7 @@ MonoBehaviour:
     animationTrigger: hammer
     lockItemAfterAction: 0
     isSelectable: 1
+    waterCapacity: 0
     swapToAfterAction: -1
   - itemCollider: {fileID: 2546761604887344468}
     itemSprite: {fileID: 6317153379648145392, guid: c020b4341b225df40b73d35804485f8f,
@@ -1305,6 +1306,7 @@ MonoBehaviour:
     animationTrigger: fill
     lockItemAfterAction: 1
     isSelectable: 1
+    waterCapacity: 0.1
     swapToAfterAction: 2
   - itemCollider: {fileID: 2546761604887344468}
     itemSprite: {fileID: 9040935217833893268, guid: c020b4341b225df40b73d35804485f8f,
@@ -1312,7 +1314,10 @@ MonoBehaviour:
     animationTrigger: empty
     lockItemAfterAction: 0
     isSelectable: 0
+    waterCapacity: 0
     swapToAfterAction: 1
+  canCollectWater: 0
+  isInsideShip: 0
 --- !u!61 &2546761606156302643
 BoxCollider2D:
   m_ObjectHideFlags: 0
