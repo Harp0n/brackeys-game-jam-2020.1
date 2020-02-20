@@ -1283,13 +1283,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisName: Horizontal
-  movementForce: 30
-  maxSpeed: 25
-  stoppingForce: 5
+  movementSpeed: 15
+  airMovementSpeed: 7.9
   jumpButton: Jump
   jumpStrength: 1000
   actionButton: Fire1
-  scrollWheelAxis: Mouse ScrollWheel
+  nextItemButton: NextItem
+  prevItemButton: PrevItem
   itemHolder: {fileID: 2546761605973828900}
   items:
   - itemCollider: {fileID: 2546761605888980384}

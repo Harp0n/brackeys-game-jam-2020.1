@@ -18,9 +18,9 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Movement")]
     public string axisName = "Horizontal";
-    public float movementForce;
-    public float maxSpeed;
-    public float stoppingForce;
+    public float movementSpeed;
+    [Range(0f, 1f)]
+    public float airMovementSlowdown;
 
     [Header("Jumping")]
     public string jumpButton = "";
@@ -29,7 +29,8 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Actions")]
     public string actionButton = "";
-    public string scrollWheelAxis = "";
+    public string nextItemButton = "";
+    public string prevItemButton = "";
     public SpriteRenderer itemHolder;
     public Item[] items;
     private List<int> selectable = new List<int>();
@@ -62,6 +63,11 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        itemHolder.sprite = items[currentItem].itemSprite;
+    }
+
     void Update()
     {
         if (isInAction) return;
@@ -73,28 +79,10 @@ public class PlayerScript : MonoBehaviour
 
     private void Movement()
     {
-        if (Mathf.Abs(rigid.velocity.x) < maxSpeed)
-        {
-            float input = Input.GetAxis("Horizontal");
-
-            if (input != 0)
-            {
-                if (input < 0) transform.localScale = leftScale;
-                else transform.localScale = rightScale;
-                if (rigid.velocity.x * input >= 0)
-                {
-                    rigid.AddForce(input * movementForce * Vector2.right);
-                }
-                else
-                {
-                    rigid.AddForce(input * movementForce * Vector2.right + -rigid.velocity.x * Vector2.right * stoppingForce);
-                }
-            }
-            else
-            {
-                rigid.AddForce(-rigid.velocity.x * Vector2.right * stoppingForce);
-            }
-        }
+        float input = Input.GetAxis("Horizontal");
+        if (input < 0) transform.localScale = leftScale;
+        else if (input > 0) transform.localScale = rightScale;
+        rigid.velocity = new Vector2(movementSpeed * input * (isGrounded ? 1f : airMovementSlowdown), rigid.velocity.y);
         animator.SetFloat("walk_speed", Mathf.Abs(rigid.velocity.x));
     }
 
@@ -114,13 +102,15 @@ public class PlayerScript : MonoBehaviour
     private void SwapItem()
     {
         if (!canChangeItem) return;
-        float scrollWheel = Input.GetAxis(scrollWheelAxis);
-        if (scrollWheel < 0f)
+        int prevItem = currentItem;
+
+        if (Input.GetButtonDown(prevItemButton))
             currentItem = selectable[(currentItem - 1 + selectable.Count) % selectable.Count];
-        else if (scrollWheel > 0f)
+        else if (Input.GetButtonDown(nextItemButton))
             currentItem = selectable[(currentItem + 1) % selectable.Count];
 
-        itemHolder.sprite = items[currentItem].itemSprite;
+        if (prevItem != currentItem)
+            itemHolder.sprite = items[currentItem].itemSprite;
     }
 
     private void Action()
@@ -128,6 +118,7 @@ public class PlayerScript : MonoBehaviour
         if (!isGrounded) return;
         if(Input.GetButton(actionButton))
         {
+            if (items[currentItem].waterCapacity > 0 && !canCollectWater) return;
             isInAction = true;
             items[currentItem].itemCollider.enabled = true;
             rigid.velocity = Vector2.zero;
