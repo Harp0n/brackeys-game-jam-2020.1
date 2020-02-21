@@ -8,6 +8,14 @@ public class HoleMask : Hole
     void Start()
     {
         IsPatchedUp = true;
-        INITIAL_SIZE = 100.5f;
+        INITIAL_SIZE = 0.5f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "hammer")
+        {
+            IsPatchedUp = true;
+        }
     }
 }
