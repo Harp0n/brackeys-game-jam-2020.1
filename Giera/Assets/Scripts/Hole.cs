@@ -9,7 +9,7 @@ namespace Assets.Logics.Systems
 {
     public abstract class Hole : MonoBehaviour
     {
-        protected float INITIAL_SIZE = 0.00005f;
+        protected float INITIAL_SIZE = 0.00003f;
         protected float size;
         public float Size {
             get => size;
@@ -45,6 +45,7 @@ namespace Assets.Logics.Systems
 
         void Start()
         {
+            Size = INITIAL_SIZE;
             IsPatchedUp = true;
         }
 

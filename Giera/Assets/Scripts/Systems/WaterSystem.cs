@@ -9,7 +9,8 @@ namespace Assets.Logics.Systems
 {
     public class WaterSystem : ISystem
     {
-        const float INCREMENT_HOLE_SIZE = 0.0000f;
+        private readonly float WATER_MULTIPLIER = 100;
+        const float INCREMENT_HOLE_SIZE = 0.000002f;
 
         private Transform waterTransform;
         private Vector2 waterTransformInitialPosition;
@@ -34,7 +35,7 @@ namespace Assets.Logics.Systems
                     waterAmount += hole.Size * deltaTime;
                 }
             }
-            boat.SetWaterOnBoard(waterAmount);
+            boat.SetWaterOnBoard(waterAmount * WATER_MULTIPLIER);
             waterTransform.localPosition = new Vector3(0.0f, boat.GetWaterOnBoard() * waterTransformInitialPosition.y, 0.0f);
         }
     }
