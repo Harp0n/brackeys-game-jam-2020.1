@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class TravelSystem : ISystem
 {
-    public static float minDistance = 1f;
-    public static float maxDistance = 1;
+    public static float minDistance = 30f;
+    public static float maxDistance = 60f;
     private float travelledDistance;
 
     public TravelSystem()

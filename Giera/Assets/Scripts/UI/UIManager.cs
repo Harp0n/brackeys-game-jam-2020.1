@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Graphs;
+using Assets.Logics.Map;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,7 +18,9 @@ public class UIManager : MonoBehaviour
 
     private Canvas canvas;
     [SerializeField]
-    private GameObject mainMenu, portMenu, pathMenu, gameOverMenu;
+    private GameObject mainMenu, portMenu, pathMenu, gameOverMenu, shipMenu;
+
+    public WorldMap WorldMap { get; set; }
 
     private GameStateEnum _gameState;
     public GameStateEnum GameState
@@ -31,37 +34,27 @@ public class UIManager : MonoBehaviour
                 case GameStateEnum.MENU:
                     Debug.Log("MENU");
                     ChangeScene(0);
-
-                    HideEverything();
-                    if (canvas)
-                        canvas.enabled = true;
-                    if (mainMenu)
-                        mainMenu.SetActive(true);
+                    mainMenu.SetActive(true);
                     break;
                 case GameStateEnum.PLAYING:
+                    shipMenu.SetActive(true);
                     ChangeScene(1);
                     break;
                 case GameStateEnum.PATH_SELECTION:
                     Debug.Log("Selection");
-                    canvas.enabled = true;
-                    if (pathMenu)
-                        pathMenu.SetActive(true);
+                    pathMenu.SetActive(true);
+                    GameObject.FindObjectOfType<MapSelection>().GenerateMapGui(WorldMap);
                     break;
                 case GameStateEnum.DOCKING:
                     if (_gameState.Equals(GameStateEnum.PLAYING))
                     {
                         ChangeScene(0);
-                        HideEverything();
                     }
-                    canvas.enabled = true;
-                    if (portMenu)
-                        portMenu.SetActive(true);
+                    portMenu.SetActive(true);
                     Debug.Log("DOCKING");
                     break;
                 case GameStateEnum.GAMEOVER:
-                    canvas.enabled = true;
-                    if (gameOverMenu != null)
-                        gameOverMenu.SetActive(true);
+                    gameOverMenu.SetActive(true);
                     break;
             }
             _gameState = value;
@@ -72,10 +65,10 @@ public class UIManager : MonoBehaviour
     {
         LoadObjects();
         mainMenu.SetActive(false);
-            portMenu.SetActive(false);
-            pathMenu.SetActive(false);
-            gameOverMenu.SetActive(false);
-            canvas.enabled = false;
+        portMenu.SetActive(false);
+        pathMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
+        shipMenu.SetActive(false);
     }
 
     public void FinishJourney()
@@ -85,6 +78,11 @@ public class UIManager : MonoBehaviour
         {
             GameState = GameStateEnum.DOCKING;
         }
+    }
+
+    public void GameOver()
+    {
+        GameState = GameStateEnum.GAMEOVER;
     }
 
     public void SelectPath(Edge edge)
@@ -103,8 +101,27 @@ public class UIManager : MonoBehaviour
         GameState = GameStateEnum.PATH_SELECTION;
     }
 
+    private void RestartGame()
+    {
+        WorldMap = new WorldMap();
+        WorldMap.CreateMap(howBigMap: 5, minIslandsInArray: 2, maxIslandsInArray: 4, howManyConnectionsInSameArrDivider: 2);
+    }
+
+    public void StartNewGame()
+    {
+        RestartGame();
+        Sail();
+    }
+
+    public void ReturnToMenu()
+    {
+        GameState = GameStateEnum.MENU;
+        RestartGame();
+    }
+
     private void Start()
     {
+        RestartGame();
         canvas = GameObject.FindObjectOfType<Canvas>();
         LoadObjects();
         DontDestroyOnLoad(canvas.gameObject);
@@ -128,6 +145,10 @@ public class UIManager : MonoBehaviour
         {
             gameOverMenu = GameObject.Find("GameOverMenu");
         }
+        if(shipMenu == null)
+        {
+            shipMenu = GameObject.Find("ShipMenu");
+        }
     }
 
     public void ChangeScene(int sceneId)
@@ -138,13 +159,13 @@ public class UIManager : MonoBehaviour
     public void SetWaterPercentage(float percentage)
     {
         if (waterPercentage == null) return;
-        waterPercentage.SetText(percentage.ToString() + "%");
+        waterPercentage.SetText((int)(percentage * 100) + "%");
     }
 
     public void SetSpeedValue(float speed)
     {
         if (speedValue == null) return;
-        speedValue.SetText(speed.ToString() + speedSurfix);
+        speedValue.SetText((speed * 10.0f).ToString("0.00") + speedSurfix);
     }
 
     public void SetBoatProgress(float progress)

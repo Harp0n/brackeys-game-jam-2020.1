@@ -9,6 +9,7 @@ namespace Assets.Logics.Systems
 {
     public abstract class Hole : MonoBehaviour
     {
+        protected float INITIAL_SIZE = 0.00005f;
         protected float size;
         public float Size {
             get => size;
@@ -29,12 +30,31 @@ namespace Assets.Logics.Systems
             }
         }
 
-        protected virtual void OnStateChange(bool futurePatchUp) { }
+        protected virtual void OnStateChange(bool futurePatchUp) {
+            if (IsPatchedUp && !futurePatchUp) //open a hole
+            {
+                Size = INITIAL_SIZE;
+            }
+            else if (!IsPatchedUp && futurePatchUp)//close a hole
+            {
+
+            }
+            SetDisplay(futurePatchUp);
+        }
         protected virtual void OnSizeChange(float futureSize) { }
 
         void Start()
         {
-            isPatchedUp = true;
+            IsPatchedUp = true;
+        }
+
+        void SetDisplay(bool isPatchedUp)
+        {
+            gameObject.GetComponent<SpriteRenderer>().enabled = isPatchedUp;
+            foreach (Transform child in gameObject.transform)
+            {
+                child.gameObject.GetComponent<SpriteRenderer>().enabled = !isPatchedUp;
+            }
         }
     }
 }

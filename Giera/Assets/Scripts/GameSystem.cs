@@ -24,7 +24,6 @@ namespace Assets.Logics
             set
             {
                 _journeyPrecentage = value;
-                Debug.Log(_journeyPrecentage);
                 UIManager.SetBoatProgress(_journeyPrecentage);
             }
         }
@@ -32,7 +31,6 @@ namespace Assets.Logics
         // Start is called before the first frame update
         void Start()
         {
-            Debug.Log("EEEELOOOO");
             UIManager = GameObject.FindObjectOfType<UIManager>();
             HowHard = UIManager.HowHard;
             HowLong = UIManager.HowLong;

@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class HoleMask : Hole
 {
-    protected override void OnStateChange(bool isPatchedUp)
+    void Start()
     {
-        //throw new System.NotImplementedException();
+        IsPatchedUp = true;
+        INITIAL_SIZE = 100.5f;
     }
 }

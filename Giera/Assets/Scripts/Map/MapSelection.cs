@@ -28,17 +28,10 @@ public class MapSelection : MonoBehaviour
     private Transform mapTransform;
     private Dictionary<Tuple<int, int>, Vector2> islandsPositions;
 
-    // Start is called before the first frame update
-    void Start()
+    public void GenerateMapGui(WorldMap worldMapOld)
     {
-        mapTransform = gameObject.transform;
-        worldMap = new WorldMap();
-        worldMap.CreateMap(howBigMap: 5, minIslandsInArray: 2, maxIslandsInArray: 4, howManyConnectionsInSameArrDivider: 2);
-        GenerateMapGui();
-    }
-
-    void GenerateMapGui()
-    {
+        Debug.Log("Starting generating map");
+        this.worldMap = worldMapOld;
         islandsPositions = new Dictionary<Tuple<int, int>, Vector2>();
         foreach (Transform children in mapTransform) // remove previous islands
         {
@@ -84,6 +77,7 @@ public class MapSelection : MonoBehaviour
             Tuple<int, int> indexesB = worldMap.getIndexesOfVertex(edge.Vertices.Last);
             CreateLine(indexesA, indexesB, edge);
         }
+        Debug.Log("Stopped generating map");
     }
 
     private void CreateLine(Tuple<int,int> indexesA, Tuple<int, int> indexesB, Edge edge)
@@ -131,4 +125,11 @@ public class MapSelection : MonoBehaviour
             }
         }
     }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        mapTransform = gameObject.transform;
+    }
+
 }

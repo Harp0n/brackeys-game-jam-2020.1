@@ -32,7 +32,7 @@ public class Boat : MonoBehaviour
         }
         else if ((waterOnBoard + value) > 1.0f)
         {
-            Debug.Log("GAME OVERS");
+            uiManager.GameOver();
         }
         else
         {
