@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum GameStateEnum
 {
-    PATH_SELECTION, PLAYING, DOCKING, GAMEOVER, WIN  
+    MENU, PATH_SELECTION, PLAYING, DOCKING, GAMEOVER, WIN  
 }

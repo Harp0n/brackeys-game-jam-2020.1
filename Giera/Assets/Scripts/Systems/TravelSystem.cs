@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class TravelSystem : ISystem
 {
-    public static float minDistance = 45f;
-    public static float maxDistance = 120f;
+    public static float minDistance = 1f;
+    public static float maxDistance = 1;
     private float travelledDistance;
 
     public TravelSystem()
@@ -25,10 +25,10 @@ public class TravelSystem : ISystem
         float distanceToTravel = (maxDistance - minDistance) * (HowLong - 1) / 9.0f + minDistance;
         float speed = gameSystem.Boat.Speed;
         travelledDistance += speed * deltaTime;
-        gameSystem.journeyPercentage = travelledDistance / distanceToTravel;
+        gameSystem.JourneyPercentage = travelledDistance / distanceToTravel;
         if(travelledDistance >= distanceToTravel)
         {
-            gameSystem.FinishJourney();
+            gameSystem.UIManager.FinishJourney();
             Reset();
         }
 

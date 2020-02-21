@@ -31,8 +31,10 @@ public class MapSelection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        islandsPositions = new Dictionary<Tuple<int, int>, Vector2>();
-        mapTransform = gameObject.transform;    
+        mapTransform = gameObject.transform;
+        worldMap = new WorldMap();
+        worldMap.CreateMap(howBigMap: 5, minIslandsInArray: 2, maxIslandsInArray: 4, howManyConnectionsInSameArrDivider: 2);
+        GenerateMapGui();
     }
 
     void GenerateMapGui()
@@ -125,19 +127,8 @@ public class MapSelection : MonoBehaviour
             if (worldMap.RouteBetween(currentLocation, targetLocation) != null)
             {
                 worldMap.MovePlayer(targetLocation);
-                GameObject.FindObjectOfType<GameSystem>().SelectPath(edge);
+                GameObject.FindObjectOfType<UIManager>().SelectPath(edge);
             }
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            worldMap = new WorldMap();
-            worldMap.CreateMap(howBigMap: 5, minIslandsInArray: 2, maxIslandsInArray: 4, howManyConnectionsInSameArrDivider: 2);
-            GenerateMapGui();
         }
     }
 }
