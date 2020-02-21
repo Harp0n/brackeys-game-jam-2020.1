@@ -82,7 +82,7 @@ public class PlayerScript : MonoBehaviour
         float input = Input.GetAxis("Horizontal");
         if (input < 0) transform.localScale = leftScale;
         else if (input > 0) transform.localScale = rightScale;
-        rigid.velocity = new Vector2(movementSpeed * input * (isGrounded ? 1f : airMovementSlowdown), rigid.velocity.y);
+        rigid.velocity = new Vector2(movementSpeed * input * (isGrounded ? 1f : (1f - airMovementSlowdown)), rigid.velocity.y);
         animator.SetFloat("walk_speed", Mathf.Abs(rigid.velocity.x));
     }
 
