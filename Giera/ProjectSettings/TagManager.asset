@@ -9,6 +9,11 @@ TagManager:
   - holeMast
   - holeHull
   - ground
+  - map
+  - pathInfo
+  - ship
+  - pathSelection
+  - docking
   layers:
   - Default
   - TransparentFX

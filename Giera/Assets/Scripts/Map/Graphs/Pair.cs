@@ -66,5 +66,10 @@ namespace Graphs
             if (item.Equals(_last)) return _first;
             return default(T);
         }
+
+        //public static implicit operator Pair<T>(Pair<T> v)
+        //{
+            //throw new NotImplementedException();
+        //}
     }
 }
