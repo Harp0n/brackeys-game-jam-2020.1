@@ -1,6 +1,7 @@
 ﻿using Graphs;
 using System;
 using System.Collections.Generic;
+using Unity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,6 @@ namespace Assets.Logics.Map
 
             WorldGraph = new Graph();
 
-            Random generator = new Random();
 
             Vertex startingVertex = new Vertex(new Location("Starting Island"));
 
@@ -45,7 +45,7 @@ namespace Assets.Logics.Map
             //Creating list of lists of Islands
             for(int i=1; i < howBigMap+1; i++)
             {
-                int howManyIslands = generator.Next(minIslandsInArray, maxIslandsInArray);
+                int howManyIslands = UnityEngine.Random.Range(minIslandsInArray, maxIslandsInArray);
                 llVertex.Add(new List<Vertex>());
 
                 for (int j = 0; j < howManyIslands; j++)
@@ -58,19 +58,17 @@ namespace Assets.Logics.Map
             }
             
             //Connecting Islands with routes
-            for(int i = 1; i < howBigMap; i++)
+            for(int i = 1; i <= howBigMap; i++)
             {
                 int firstArrLength = llVertex[i - 1].Count;
                 int secondArrLength = llVertex[i].Count;
 
                 for(int j = 0; j < (firstArrLength > secondArrLength ? firstArrLength : secondArrLength); j++)
                 {
-                    //Random route creator
-                    Route route = new Route();
 
                     Pair<Location> pair = 
-                        new Pair<Location>(llVertex[i - 1][generator.Next(0, firstArrLength)].Location,
-                                            llVertex[i][generator.Next(0, secondArrLength)].Location);
+                        new Pair<Location>(llVertex[i - 1][UnityEngine.Random.Range(0, firstArrLength)].Location,
+                                            llVertex[i][UnityEngine.Random.Range(0, secondArrLength)].Location);
 
                     Edge edge = new Edge(pair);
                     edge.Route = new Route();
@@ -80,7 +78,7 @@ namespace Assets.Logics.Map
             }
 
             //Connecting Islands in the same Array
-            for(int i = 0; i < howBigMap; i++)
+            for(int i = 0; i <= howBigMap; i++)
             {
                 int howManyIslandsInArray = llVertex[i].Count;
 
@@ -88,10 +86,9 @@ namespace Assets.Logics.Map
                 {
                     for(int j=0; j < howManyIslandsInArray / howManyConnectionsInSameArrDivider; j++)
                     {
-                        //Random route creator
-                        Route route = new Route();
 
-                        Pair<Location> pair = new Pair<Location>(llVertex[i][generator.Next(0, howManyIslandsInArray)].Location, llVertex[i][generator.Next(0, howManyIslandsInArray)].Location);
+                        int randomIndex = UnityEngine.Random.Range(0, howManyIslandsInArray - 1);
+                        Pair<Location> pair = new Pair<Location>(llVertex[i][randomIndex].Location, llVertex[i][randomIndex+1].Location);
 
                         Edge edge = new Edge(pair);
                         edge.Route = new Route();
@@ -129,8 +126,8 @@ namespace Assets.Logics.Map
         {
             foreach(Edge edge in WorldGraph.Edges)
             {
-                if (edge.Vertices.First.Equals(one) || edge.Vertices.Last.Equals(two)) return edge.Route;
-                if (edge.Vertices.First.Equals(two) || edge.Vertices.Last.Equals(one)) return edge.Route;
+                if (edge.Vertices.First.Location.Equals(one) && edge.Vertices.Last.Location.Equals(two)) return edge.Route;
+                if (edge.Vertices.First.Location.Equals(two) && edge.Vertices.Last.Location.Equals(one)) return edge.Route;
             }
             return null;
         }
@@ -179,6 +176,34 @@ namespace Assets.Logics.Map
                 routes.Add(edge.Route);
             }
             return routes.ToArray();
+        }
+
+        /// <summary>
+        /// Return array of edges from current location of player. 
+        /// </summary>
+        /// <returns></returns>
+        public List<Edge> listOfPossibleEdges()
+        {
+            List<Edge> edgeList = new List<Edge>(GraphHelper.FindAdjacentEdges(WorldGraph, CurrentLocation));
+            return edgeList;
+        }
+
+        public Tuple<int, int> getIndexesOfVertex(Vertex vertex)
+        {
+            Tuple<int, int> result;
+            for (int i = 0; i < llVertex.Count; i++)
+            {
+                List<Vertex> lVertex = llVertex[i];
+                for (int j = 0; j < lVertex.Count; j++)
+                {
+                    if (lVertex[j].Location.Equals(vertex.Location))
+                    {
+                        result = new Tuple<int, int>(i,j);
+                        return result;
+                    }
+                }
+            }
+            return new Tuple<int, int>(-1,-1);
         }
     }
 }

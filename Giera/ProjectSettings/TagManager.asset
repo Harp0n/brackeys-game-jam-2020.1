@@ -9,6 +9,14 @@ TagManager:
   - holeMast
   - holeHull
   - ground
+  - map
+  - pathInfo
+  - ship
+  - pathSelection
+  - docking
+  - enemyPath
+  - enemy
+  - sword
   layers:
   - Default
   - TransparentFX

@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class HoleMask : Hole
 {
-    protected override void OnStateChange(bool isPatchedUp)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        //throw new System.NotImplementedException();
+        if (other.tag == "hammer")
+        {
+            IsPatchedUp = true;
+        }
     }
 }

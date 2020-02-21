@@ -47,9 +47,8 @@ namespace Assets.Logics.Map
 
         public Route()
         {
-            Random r = new Random();
-            HowHard = r.Next(1,10);
-            HowLong = r.Next(1,10);
+            HowHard = UnityEngine.Random.Range(1,10);
+            HowLong = UnityEngine.Random.Range(1,10);
         }
     }
 }
