@@ -9,6 +9,9 @@ public class EnvironmentSystem : MonoBehaviour
     {
         public Sprite[] sprites;
         public RuntimeAnimatorController animController;
+        public AudioClip sound;
+        public float time;
+        public float startingVolume;
         public int minSpriteLayer, maxSpriteLayer;
         public float minSize, maxSize;
         public float minY, maxY;
@@ -44,6 +47,7 @@ public class EnvironmentSystem : MonoBehaviour
         GameObject newThing = new GameObject("thing");
         newThing.transform.SetParent(thingsContainer);
         newThing.AddComponent<Animator>();
+        newThing.AddComponent<AudioSource>().loop = true;
         newThing.AddComponent<SpriteRenderer>();
         Rigidbody2D r = newThing.AddComponent<Rigidbody2D>();
         r.angularDrag = 0;
@@ -61,18 +65,25 @@ public class EnvironmentSystem : MonoBehaviour
         SpriteRenderer spriteRenderer = newThing.GetComponent<SpriteRenderer>();
         if (thing.sprites.Length != 0) spriteRenderer.sprite = thing.sprites[Random.Range(0, thing.sprites.Length)];
         spriteRenderer.sortingOrder = Random.Range(thing.minSpriteLayer, thing.maxSpriteLayer);
-        newThing.transform.localScale *= Random.Range(thing.minSize, thing.maxSize);
+        AudioSource a = newThing.GetComponent<AudioSource>();
+        a.clip = thing.sound;
+        float scaleMod = Random.Range(thing.minSize, thing.maxSize);
+        newThing.transform.localScale *= scaleMod;
+        a.volume = Mathf.Clamp(thing.startingVolume * scaleMod, 0, 1);
+        if (thing.sound != null) a.Play();
         float posY = Random.Range(thing.minY, thing.maxY);
         if (thing.keepUnderWater) posY = Mathf.Min(posY, waterLevel);
         if (thing.keepAboveWater) posY = Mathf.Max(posY, waterLevel);
         newThing.transform.position = new Vector2(startingX, posY);
-        newThing.GetComponent<Rigidbody2D>().velocity = Vector2.left * Random.Range(thing.minSpeed, thing.maxSpeed);
         newThing.SetActive(true);
+        float speedMod = Random.Range(thing.minSpeed, thing.maxSpeed);
+        newThing.GetComponent<Rigidbody2D>().velocity = Vector2.left * speedMod;
+        StartCoroutine(Disabler(newThing, thing.time));
     }
 
-    IEnumerator Disabler(GameObject toDisable)
+    IEnumerator Disabler(GameObject toDisable, float time)
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(time);
         Resetter(toDisable);
         toDisable.SetActive(false);
     }
@@ -82,6 +93,8 @@ public class EnvironmentSystem : MonoBehaviour
         toReset.GetComponent<Animator>().runtimeAnimatorController = null;
         toReset.GetComponent<SpriteRenderer>().sprite = null;
         toReset.transform.localScale = Vector2.one;
+        toReset.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        toReset.GetComponent<AudioSource>().Stop();
     }
 
     void Update()

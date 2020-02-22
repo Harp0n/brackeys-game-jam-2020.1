@@ -6,6 +6,9 @@ public class EnemyScript : MonoBehaviour
     public float speed;
     public float stealAmount;
     public float nodeProximity = 0.01f;
+    public AudioClip[] hurtSounds;
+    public AudioClip[] deathSounds;
+    public AudioSource hurtSource;
 
     private Animator animator;
     private Collider2D col;
@@ -16,6 +19,13 @@ public class EnemyScript : MonoBehaviour
     private bool canMove;
     private bool faceLeft = true;
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("sword"))
+        {
+            GetDamage();
+        }
+    }
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -66,6 +76,8 @@ public class EnemyScript : MonoBehaviour
     public void GetDamage()
     {
         animator.SetTrigger("damage");
+        hurtSource.clip = hurtSounds[Random.Range(0, hurtSounds.Length)];
+        hurtSource.Play();
         if (--health <= 0) Die();
     }
 
@@ -73,6 +85,8 @@ public class EnemyScript : MonoBehaviour
     {
         canMove = false;
         col.enabled = false;
+        hurtSource.clip = deathSounds[Random.Range(0, deathSounds.Length)];
+        hurtSource.Play();
         animator.SetTrigger("die");
     }
 
@@ -82,6 +96,7 @@ public class EnemyScript : MonoBehaviour
         col.enabled = false;
         animator.SetTrigger("escape");
         //tutaj odjąć towar z łodzi
+        AfterAnim();//powinno sie z animacji wezwac, ale zepsul mi sie Animator xd
     }
 
     public void AfterAnim()

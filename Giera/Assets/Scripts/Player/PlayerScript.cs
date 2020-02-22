@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     {
         public Collider2D itemCollider;
         public Sprite itemSprite;
+        public AudioClip sound;
         public string animationTrigger;
         public bool lockItemAfterAction;
         public bool isSelectable;
@@ -36,6 +37,9 @@ public class PlayerScript : MonoBehaviour
     public Item[] items;
     public float shootCooldown;
     public GameObject bulletPrefab;
+    [Header("Sounds")]
+    public AudioSource walkingAudioSource;
+    public AudioSource actionAudioSource;
 
     private List<int> selectable = new List<int>();
     private int currentItem = 0;
@@ -92,6 +96,7 @@ public class PlayerScript : MonoBehaviour
     private void Movement()
     {
         float input = Input.GetAxis("Horizontal");
+        walkingAudioSource.volume = Mathf.Abs(input);
         if (input < 0) transform.localScale = leftScale;
         else if (input > 0) transform.localScale = rightScale;
         rigid.velocity = new Vector2(movementSpeed * input * (isGrounded ? 1f : (1f - airMovementSlowdown)), rigid.velocity.y);
@@ -115,7 +120,6 @@ public class PlayerScript : MonoBehaviour
     {
         if (!canChangeItem) return;
         int prevItem = currentItem;
-        Debug.Log(selectable.Count);
         for (int i = 0; i < selectable.Count; i++)
             if (Input.GetKey((i+1).ToString())) currentItem = selectable[i];
 
@@ -137,6 +141,8 @@ public class PlayerScript : MonoBehaviour
                 items[currentItem].itemCollider.enabled = true;
             isInAction = true;
             rigid.velocity = Vector2.zero;
+            actionAudioSource.clip = items[currentItem].sound;
+            actionAudioSource.Play();
             animator.SetTrigger(items[currentItem].animationTrigger);
         }
     }
@@ -188,6 +194,7 @@ public class PlayerScript : MonoBehaviour
             item.itemCollider.enabled = false;
 
         isInAction = false;
+        actionAudioSource.Stop();
         canChangeItem = true;
         if (item.lockItemAfterAction) canChangeItem = false;
         if (item.waterCapacity > 0f)

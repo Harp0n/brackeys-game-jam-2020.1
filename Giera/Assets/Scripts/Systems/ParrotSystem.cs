@@ -22,14 +22,14 @@ public class ParrotSystem : MonoBehaviour
         isKraaing = true;
         kraaText.SetText(kraas[index]);
         worldCanvas.SetActive(true);
-        
+        kraaTimer = kraaTime;
     }
 
     private void StopKraa()
     {
         isKraaing = false;
         worldCanvas.SetActive(false);
-        kraaTimer = kraaTime;
+        GenerateTime();
     }
 
     private void GenerateTime()

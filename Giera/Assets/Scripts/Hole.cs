@@ -20,6 +20,7 @@ namespace Assets.Logics.Systems
         }
 
         private bool isPatchedUp;
+        private bool wasPatchedUp;
         public bool IsPatchedUp
         {
             get => isPatchedUp;
@@ -51,7 +52,10 @@ namespace Assets.Logics.Systems
 
         void SetDisplay(bool isPatchedUp)
         {
+            if (!isPatchedUp && wasPatchedUp)
+                gameObject.GetComponent<AudioSource>().Play();
             gameObject.GetComponent<SpriteRenderer>().enabled = isPatchedUp;
+            wasPatchedUp = isPatchedUp;
             foreach (Transform child in gameObject.transform)
             {
                 child.gameObject.GetComponent<SpriteRenderer>().enabled = !isPatchedUp;
