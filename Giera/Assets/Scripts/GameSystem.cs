@@ -1,5 +1,6 @@
 ﻿using Assets.Logics.Map;
 using Assets.Logics.Systems;
+using Assets.Scripts.Systems;
 using Graphs;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,8 @@ namespace Assets.Logics
                 new WaterSystem(),
                 new EventSystem(),
                 new TravelSystem(),
-                new MovementSystem()
+                new MovementSystem(),
+                new CargoSystem()
             };
             Boat = FindObjectOfType<Boat>();
             Boat.Reset();
