@@ -15,7 +15,9 @@ namespace Assets.Logics
         public int HowHard { get; set; }
         public int HowLong { get; set; }
 
+        private EnvironmentSystem environmentSystem;
         public UIManager UIManager { get; set; }
+        private Transform waterLevelTransform;
 
         private float _journeyPrecentage;
         public float JourneyPercentage
@@ -31,7 +33,10 @@ namespace Assets.Logics
         // Start is called before the first frame update
         void Start()
         {
+            waterLevelTransform = GameObject.FindGameObjectWithTag("waterLevel").transform;
             UIManager = GameObject.FindObjectOfType<UIManager>();
+            environmentSystem = GameObject.FindObjectOfType<EnvironmentSystem>();
+
             HowHard = UIManager.HowHard;
             HowLong = UIManager.HowLong;
             Systems = new List<ISystem>
@@ -45,7 +50,6 @@ namespace Assets.Logics
             Boat.Reset();
             Player = FindObjectOfType<PlayerScript>();
         }
-
 
         // Update is called once per frame
         void Update()
@@ -66,6 +70,7 @@ namespace Assets.Logics
             {
                 system.Update(this, Time.deltaTime);
             }
+            environmentSystem.SetWaterLevel(waterLevelTransform.position.y);
         }
     }
 }

@@ -17,6 +17,7 @@ TagManager:
   - enemyPath
   - enemy
   - sword
+  - waterLevel
   layers:
   - Default
   - TransparentFX
