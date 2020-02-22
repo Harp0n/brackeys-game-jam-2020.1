@@ -148,6 +148,11 @@ public class PlayerScript : MonoBehaviour
             if (!g.activeSelf) return g;
         }
         GameObject result = Instantiate(bulletPrefab, bulletsContainer);
+        if (transform.localScale.x < 0)
+        {
+            result.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+        }
+        
         bulletsPool.Add(result);
         return result;
     }

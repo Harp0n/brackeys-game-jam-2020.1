@@ -15,6 +15,9 @@ namespace Assets.Logics
         public int HowHard { get; set; }
         public int HowLong { get; set; }
 
+        [SerializeField]
+        private GameObject piratePrefab;
+
         private EnvironmentSystem environmentSystem;
         public UIManager UIManager { get; set; }
         private Transform waterLevelTransform;
@@ -28,6 +31,14 @@ namespace Assets.Logics
                 _journeyPrecentage = value;
                 UIManager.SetBoatProgress(_journeyPrecentage);
             }
+        }
+
+        public void SpawnPirate()
+        {
+            Debug.Log("Pojawiam pirata");
+            GameObject pirate = Instantiate(piratePrefab);
+            pirate.SetActive(false);
+            pirate.SetActive(true);
         }
 
         // Start is called before the first frame update
