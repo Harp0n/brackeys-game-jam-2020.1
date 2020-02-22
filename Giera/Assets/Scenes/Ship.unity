@@ -1318,6 +1318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac6331b84a5bf14391b98e4352ab4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  piratePrefab: {fileID: 5592202527291659208, guid: 710ffa8f879f50743a9af034b8e12985,
+    type: 3}
 --- !u!4 &815360765
 Transform:
   m_ObjectHideFlags: 0

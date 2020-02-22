@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
 
     private void OnEnable()
     {
-        rigid.velocity = Vector2.right * bulletSpeed;
+        rigid.velocity = gameObject.transform.right * bulletSpeed;
         StartCoroutine(Disabler());
     }
 
@@ -27,6 +27,11 @@ public class Bullet : MonoBehaviour
             hit.GetComponent<EnemyScript>().GetDamage();
             gameObject.SetActive(false);
         }
+    }
+
+    private void Update()
+    {
+        rigid.velocity = gameObject.transform.InverseTransformDirection(Vector3.right) * bulletSpeed;
     }
 
     IEnumerator Disabler()
