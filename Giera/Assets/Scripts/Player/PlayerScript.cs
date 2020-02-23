@@ -85,10 +85,6 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("PlayerState:");
-        Debug.Log("moving: " + rigid.velocity);
-        Debug.Log("isGrounded: " + isGrounded);
-        Debug.Log("inAction: " + isInAction);
         if (isInAction) return;
         Jumping();
         Movement();

@@ -67,7 +67,7 @@ namespace Assets.Logics
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKey("up"))
+            /*if (Input.GetKey("up"))
             {
                 Boat.SetWaterOnBoard(0.01f);
                 print("up arrow key is held down");
@@ -77,7 +77,7 @@ namespace Assets.Logics
             {
                 Boat.SetWaterOnBoard(-0.01f);
                 print("down arrow key is held down");
-            }
+            }*/
 
             foreach (var system in Systems)
             {

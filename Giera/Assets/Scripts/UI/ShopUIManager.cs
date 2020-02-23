@@ -19,12 +19,6 @@ public class ShopUIManager : MonoBehaviour
     private float playerMoney = 2;
     private bool enoughMoney = true;
 
-    //przypisac kase gracza tutaj - moze z playerpref korzystajac?
-    private void Awake()
-    {
-       // playerMoney = PlayerPrefs.GetFloat("playerMoney", 0f);
-    }
-
     private void Start()
     {
         UpdateUI();
@@ -40,6 +34,7 @@ public class ShopUIManager : MonoBehaviour
     public void SetPlayerMoney(float money)
     {
         playerMoney = money;
+        UpdateUI();
     }
     //to modyfikowac z zewnatrz
     public void SetMinCargo(int minCargo)
