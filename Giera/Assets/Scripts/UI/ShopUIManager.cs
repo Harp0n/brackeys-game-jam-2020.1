@@ -14,8 +14,8 @@ public class ShopUIManager : MonoBehaviour
     public GameObject confirmButton;
 
     private int selectedCargo;
-    private float costPerCargo = 0.1f;
-    private float speedDecreasePerCargo = 0.2f;
+    private float costPerCargo = 100.0f;
+    private float speedDecreasePerCargo = 0.13f;
     private float playerMoney = 2;
     private bool enoughMoney = true;
 
@@ -36,6 +36,10 @@ public class ShopUIManager : MonoBehaviour
         selectedCargo = (int)cargoSlider.value;
         enoughMoney = selectedCargo * costPerCargo <= playerMoney;
         UpdateUI();
+    }
+    public void SetPlayerMoney(float money)
+    {
+        playerMoney = money;
     }
     //to modyfikowac z zewnatrz
     public void SetMinCargo(int minCargo)
@@ -63,6 +67,7 @@ public class ShopUIManager : MonoBehaviour
     {
         float totalCost = selectedCargo * costPerCargo;
         float totalSlowdown = selectedCargo * speedDecreasePerCargo;
+        GameObject.FindObjectOfType<UIManager>().BuyCargo(selectedCargo, totalCost, totalSlowdown);
     }
 
     private void UpdateUI()

@@ -19,8 +19,8 @@ namespace Assets.Scripts.Systems
         public void Update(GameSystem gameSystem, float deltaTime)
         {
             float waterPercentageOnBoard = gameSystem.Boat.GetWaterOnBoard();
-            int result = (int)(waterPercentageOnBoard * gameSystem.Boat.Cargo.Quantity * HowMuchCargoToLose);
-            gameSystem.Boat.Cargo.Quantity -= result;
+            float result = (waterPercentageOnBoard * gameSystem.UIManager.BoatData.Cargo.Quantity * HowMuchCargoToLose);
+            gameSystem.UIManager.BoatData.Cargo.Quantity -= result;
         }
     }
 }

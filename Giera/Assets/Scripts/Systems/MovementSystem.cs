@@ -24,7 +24,8 @@ namespace Assets.Logics.Systems
                     sumOfHoleSizes += hole.Size;
                 }
             }
-            boat.Speed = 1 - (SPEED_DECREASE * sumOfHoleSizes);
+           
+            boat.Speed = (1 - (SPEED_DECREASE * sumOfHoleSizes)) * gameSystem.UIManager.BoatData.BoatSpeed;
         }
     }
 }

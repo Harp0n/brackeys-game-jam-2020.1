@@ -205,5 +205,12 @@ namespace Assets.Logics.Map
             }
             return new Tuple<int, int>(-1,-1);
         }
+
+        public Vertex GetRandomVertex(int forwardRange)
+        {
+            int layerIndex = getIndexesOfVertex(CurrentLocation).Item1 + forwardRange;
+            Vertex destination = llVertex[layerIndex][UnityEngine.Random.Range(0, llVertex[layerIndex].Count)];
+            return destination;
+        }
     }
 }

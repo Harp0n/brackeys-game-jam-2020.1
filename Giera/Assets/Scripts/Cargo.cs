@@ -2,7 +2,7 @@
 
 public class Cargo
 {
-    public int Quantity { 
+    public float Quantity { 
         get
         {
             return _quantity;
@@ -12,7 +12,7 @@ public class Cargo
             _ = value > 0 ? _quantity = value : _quantity = Quantity;
         }
     }
-    public int _quantity;
+    public float _quantity;
     private float _pricePerUnit;
     public float PricePerUnit {
         get

@@ -1071,7 +1071,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &334026655
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3299,7 +3299,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4224,6 +4224,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1962433383}
     m_Modifications:
+    - target: {fileID: 4529858522884588305, guid: 4d7748ae7cdcd5445b2481f74fd8e3db,
+        type: 3}
+      propertyPath: circlePrefab
+      value: 
+      objectReference: {fileID: 356339622435312494, guid: 3465d448a5b03d84895aa5d6bd11f973,
+        type: 3}
     - target: {fileID: 4529858522884588306, guid: 4d7748ae7cdcd5445b2481f74fd8e3db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -5024,6 +5030,8 @@ MonoBehaviour:
   pathMenu: {fileID: 0}
   gameOverMenu: {fileID: 0}
   shipMenu: {fileID: 0}
+  shopMenu: {fileID: 0}
+  buttonShop: {fileID: 0}
 --- !u!4 &1561691914
 Transform:
   m_ObjectHideFlags: 0
@@ -5666,20 +5674,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1561691913}
-        m_MethodName: Sail
-        m_Mode: 1
+      - m_Target: {fileID: 334026654}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 334026654}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1561691913}
+        m_MethodName: Sail
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7304,7 +7312,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

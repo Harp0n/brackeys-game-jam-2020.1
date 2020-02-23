@@ -25,12 +25,19 @@ public class MapSelection : MonoBehaviour
     private GameObject shipPrefab;
     [SerializeField]
     private GameObject linePrefab;
+    [SerializeField]
+    private GameObject circlePrefab;
     private Transform mapTransform;
     private Dictionary<Tuple<int, int>, Vector2> islandsPositions;
+
 
     public void GenerateMapGui(WorldMap worldMapOld)
     {
         Debug.Log("Starting generating map");
+        UIManager uiManager = GameObject.FindObjectOfType<UIManager>();
+        Location questTargetLocation = uiManager.BoatData.Cargo.Destination;
+
+
         this.worldMap = worldMapOld;
         islandsPositions = new Dictionary<Tuple<int, int>, Vector2>();
         foreach (Transform children in mapTransform) // remove previous islands
@@ -60,6 +67,14 @@ public class MapSelection : MonoBehaviour
 
                 Location currentLocation = layerIslands[j].Location;
                 GameObject prefab;
+                if (currentLocation.Equals(questTargetLocation))
+                {
+                    Debug.Log("WTF" +questTargetLocation);
+                    GameObject prefabCircle = Instantiate(circlePrefab);
+                    prefabCircle.GetComponent<RectTransform>().offsetMin = position;
+                    prefabCircle.GetComponent<RectTransform>().offsetMax = position + new Vector2(Screen.width * 0.1f, Screen.height * 0.1f);
+                    prefabCircle.transform.SetParent(mapTransform);
+                }
                 if (currentLocation.Equals(worldMap.CurrentLocation.Location))
                 {
                     prefab = Instantiate(shipPrefab);
