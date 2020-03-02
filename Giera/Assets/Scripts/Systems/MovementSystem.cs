@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Logics.Systems
+﻿namespace Assets.Logics.Systems
 {
     public class MovementSystem : ISystem
     {
@@ -25,7 +19,7 @@ namespace Assets.Logics.Systems
                 }
             }
            
-            boat.Speed = (1 - (SPEED_DECREASE * sumOfHoleSizes)) * gameSystem.UIManager.BoatData.BoatSpeed;
+            boat.Speed = (1 - (SPEED_DECREASE * sumOfHoleSizes));
         }
     }
 }

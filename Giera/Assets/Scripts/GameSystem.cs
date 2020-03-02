@@ -1,8 +1,4 @@
-﻿using Assets.Logics.Map;
-using Assets.Logics.Systems;
-using Assets.Scripts.Systems;
-using Graphs;
-using System;
+﻿using Assets.Logics.Systems;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,9 +51,7 @@ namespace Assets.Logics
             {
                 new WaterSystem(),
                 new EventSystem(),
-                new TravelSystem(),
                 new MovementSystem(),
-                new CargoSystem()
             };
             Boat = FindObjectOfType<Boat>();
             Boat.Reset();
@@ -67,18 +61,6 @@ namespace Assets.Logics
         // Update is called once per frame
         void Update()
         {
-            /*if (Input.GetKey("up"))
-            {
-                Boat.SetWaterOnBoard(0.01f);
-                print("up arrow key is held down");
-            }
-
-            if (Input.GetKey("down"))
-            {
-                Boat.SetWaterOnBoard(-0.01f);
-                print("down arrow key is held down");
-            }*/
-
             foreach (var system in Systems)
             {
                 system.Update(this, Time.deltaTime);

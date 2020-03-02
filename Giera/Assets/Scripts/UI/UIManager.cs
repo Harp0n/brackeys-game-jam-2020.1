@@ -2,9 +2,6 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using Graphs;
-using Assets.Logics.Map;
-using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -23,14 +20,9 @@ public class UIManager : MonoBehaviour
     public int HowHard { get; set; }
     public int HowLong { get; set; }
 
-    public QuestSystem QuestSystem { get; set; }
-    public BoatData BoatData { get; set; }
     private Canvas canvas;
     [SerializeField]
-    private GameObject mainMenu, portMenu, pathMenu, gameOverMenu, shipMenu, shopMenu, buttonShop;
-
-    public ShopUIManager ShopUIManager { get; set; }
-    public WorldMap WorldMap { get; set; }
+    private GameObject mainMenu, gameOverMenu, shipMenu;
 
     private GameStateEnum _gameState;
     public GameStateEnum GameState
@@ -50,20 +42,6 @@ public class UIManager : MonoBehaviour
                     shipMenu.SetActive(true);
                     ChangeScene(1);
                     break;
-                case GameStateEnum.PATH_SELECTION:
-                    Debug.Log("Selection");
-                    pathMenu.SetActive(true);
-                    GameObject.FindObjectOfType<MapSelection>().GenerateMapGui(WorldMap);
-                    break;
-                case GameStateEnum.DOCKING:
-                    if (_gameState.Equals(GameStateEnum.PLAYING))
-                    {
-                        ChangeScene(0);
-                    }
-                    UpdateShop();
-                    portMenu.SetActive(true);
-                    Debug.Log("DOCKING");
-                    break;
                 case GameStateEnum.GAMEOVER:
                     gameOverMenu.SetActive(true);
                     break;
@@ -72,42 +50,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    internal void BuyCargo(float amount, float totalCost, float totalSlowdown)
-    {
-        BoatData.Cargo.Quantity = amount;
-        BoatData.Money -= totalCost;
-        BoatData.BoatSpeed = 1.0f - (totalSlowdown) / 100.0f;
-    }
-
-    private void UpdateShop()
-    {
-        QuestSystem.UpdateQuest();
-        buttonShop.SetActive(!QuestSystem.IsQuestActive);
-        ShopUIManager.SetPlayerMoney(BoatData.Money);
-        ShopUIManager.SetMinCargo(0);
-        ShopUIManager.SetMaxCargo(startingCargoLimit);
-        ShopUIManager.SetCostPerCargo(costPerCargo);
-        ShopUIManager.SetSpeedDecreasePerCargo(speedDecreasePerCargo);
-    }
-
     private void HideEverything()
     {
         LoadObjects();
         mainMenu.SetActive(false);
-        portMenu.SetActive(false);
-        pathMenu.SetActive(false);
-        shopMenu.SetActive(false);
         gameOverMenu.SetActive(false);
         shipMenu.SetActive(false);
-    }
-
-    public void FinishJourney()
-    {
-        Debug.Log("END OF JOURNEY");
-        if (GameState.Equals(GameStateEnum.PLAYING))
-        {
-            GameState = GameStateEnum.DOCKING;
-        }
     }
 
     public void GameOver()
@@ -115,32 +63,19 @@ public class UIManager : MonoBehaviour
         GameState = GameStateEnum.GAMEOVER;
     }
 
-    public void SelectPath(Edge edge)
-    {
-        Debug.Log("SELECT PATH");
-        if (GameState.Equals(GameStateEnum.PATH_SELECTION))
-        {
-            HowHard = edge.Route.HowHard;
-            HowLong = edge.Route.HowLong;
-            GameState = GameStateEnum.PLAYING;
-        }
-    }
-
     public void Sail()
     {
-        GameState = GameStateEnum.PATH_SELECTION;
+        GameState = GameStateEnum.PLAYING;
     }
 
     private void RestartGame()
     {
-        WorldMap = new WorldMap();
-        WorldMap.CreateMap(howBigMap: 5, minIslandsInArray: 2, maxIslandsInArray: 4, howManyConnectionsInSameArrDivider: 2);
     }
 
     public void StartNewGame()
     {
         RestartGame();
-        GameState = GameStateEnum.DOCKING;
+        GameState = GameStateEnum.PLAYING;
     }
 
     public void ReturnToMenu()
@@ -151,9 +86,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        QuestSystem = new QuestSystem(this);
-        BoatData = new BoatData(startingCargoLimit,startingMoney);
-        ShopUIManager = GameObject.FindObjectOfType<ShopUIManager>();
         RestartGame();
         canvas = GameObject.FindObjectOfType<Canvas>();
         LoadObjects();
@@ -164,22 +96,11 @@ public class UIManager : MonoBehaviour
 
     void LoadObjects()
     {
-        if(buttonShop == null)
-            buttonShop = GameObject.Find("button_shop");
         if (mainMenu == null)
         {
             mainMenu = GameObject.Find("MainMenu");
         }
-        if (shopMenu == null)
-        {
-            shopMenu = GameObject.Find("Shoppe");
-        }
-        if (portMenu == null) {
-            portMenu = GameObject.Find("PortMenu");
-        }
-        if(pathMenu == null){
-            pathMenu = GameObject.Find("PathMenu");
-        }
+
         if(gameOverMenu == null)
         {
             gameOverMenu = GameObject.Find("GameOverMenu");
