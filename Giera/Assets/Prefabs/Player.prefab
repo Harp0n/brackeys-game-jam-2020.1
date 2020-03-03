@@ -1444,8 +1444,7 @@ MonoBehaviour:
   jumpButton: Jump
   jumpStrength: 1250
   actionButton: Fire1
-  nextItemButton: NextItem
-  prevItemButton: PrevItem
+  swapItemButton: SwapItem
   itemHolder: {fileID: 2546761605973828900}
   items:
   - itemCollider: {fileID: 2546761605888980384}
@@ -1577,7 +1576,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 145
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

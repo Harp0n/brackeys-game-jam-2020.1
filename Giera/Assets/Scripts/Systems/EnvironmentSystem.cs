@@ -70,7 +70,11 @@ public class EnvironmentSystem : MonoBehaviour
         float scaleMod = Random.Range(thing.minSize, thing.maxSize);
         newThing.transform.localScale *= scaleMod;
         a.volume = Mathf.Clamp(thing.startingVolume * scaleMod, 0, 1);
-        if (thing.sound != null) a.Play();
+        if (thing.sound != null)
+        {
+            a.enabled = true;
+            a.Play();
+        }
         float posY = Random.Range(thing.minY, thing.maxY);
         if (thing.keepUnderWater) posY = Mathf.Min(posY, waterLevel);
         if (thing.keepAboveWater) posY = Mathf.Max(posY, waterLevel);

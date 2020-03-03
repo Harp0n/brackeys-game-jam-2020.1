@@ -31,8 +31,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Actions")]
     public string actionButton = "";
-    public string nextItemButton = "";
-    public string prevItemButton = "";
+    public string swapItemButton = "";
     public SpriteRenderer itemHolder;
     public Item[] items;
     public float shootCooldown;
@@ -95,7 +94,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Movement()
     {
-        float input = Input.GetAxis("Horizontal");
+        float input = SimpleInput.GetAxis("Horizontal");
         walkingAudioSource.volume = Mathf.Abs(input);
         if (input < 0) transform.localScale = leftScale;
         else if (input > 0) transform.localScale = rightScale;
@@ -107,7 +106,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (!isGrounded) return;
 
-        if (Input.GetButtonDown(jumpButton))
+        if (SimpleInput.GetButtonDown(jumpButton))
         {
             rigid.AddForce(Vector2.up * jumpStrength);
             animator.SetTrigger("jump");
@@ -119,18 +118,17 @@ public class PlayerScript : MonoBehaviour
     private void SwapItem()
     {
         if (!canChangeItem) return;
-        int prevItem = currentItem;
-        for (int i = 0; i < selectable.Count; i++)
-            if (Input.GetKey((i+1).ToString())) currentItem = selectable[i];
-
-        if (prevItem != currentItem)
+        if(SimpleInput.GetButtonDown(swapItemButton))
+        {
+            currentItem = selectable[(++currentItem) % selectable.Count];
             itemHolder.sprite = items[currentItem].itemSprite;
+        }
     }
 
     private void Action()
     {
         if (!isGrounded) return;
-        if(Input.GetButton(actionButton))
+        if(SimpleInput.GetButton(actionButton))
         {
             if (items[currentItem].waterCapacity > 0 && !canCollectWater) return;
 

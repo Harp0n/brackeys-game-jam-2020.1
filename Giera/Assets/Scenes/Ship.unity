@@ -3863,14 +3863,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1997789695, guid: f30a4e4d45525304caf93b769b07e720, type: 3}
-      propertyPath: BypassEffects
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1997789695, guid: f30a4e4d45525304caf93b769b07e720, type: 3}
-      propertyPath: Priority
-      value: 145
-      objectReference: {fileID: 0}
     - target: {fileID: 2546761606156302646, guid: f30a4e4d45525304caf93b769b07e720,
         type: 3}
       propertyPath: m_LocalPosition.x
